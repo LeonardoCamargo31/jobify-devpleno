@@ -17,7 +17,8 @@ app.set('views', path.join(__dirname,'views'))//para garantir que ele vai encont
 app.set('view engine', 'ejs')//então como view engine nossa app vai usar o ejs
 
 //se não achar nenhuma rota, vai usar a pasta public
-app.use(express.static('public'))//ex http://localhost:3000/images/logo-roxo.png
+//para garantir que ele vai encontrar nossa public adiciona path.join
+app.use(express.static(path.join(__dirname,'public')))//ex http://localhost:3000/images/logo-roxo.png
 
 //toda requisição que passar pelo meu express, vai passar pelo bodyParser
 //ele entende os dados vindo do corpo da requisição, 
