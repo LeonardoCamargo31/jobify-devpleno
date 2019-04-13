@@ -5,6 +5,8 @@ const app = express()
 const sqlite = require('sqlite')
 const dbConnection = sqlite.open('banco.sqlite', { Promise })
 
+const port = process.env.PORT || 3000
+
 //não queremos deixar o html junto do js, queremos separar para ficar mais organizado
 //então queremos utilizar o ejs como uma linguagem de template dentro do express, não quero renderizar telas dentro do js
 //queremos terceirizar isso para um outro modulo
@@ -115,7 +117,7 @@ const init = async () => {
 }
 init()
 
-app.listen(3000, (erro) => {
+app.listen(port, (erro) => {
     if (erro) {
         console.log('Não foi possivel iniciar o servidor!')
     } else {
