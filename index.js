@@ -9,6 +9,8 @@ const dbConnection = sqlite.open(path.resolve(__dirname, 'banco.sqlite'), { Prom
 
 const port = process.env.PORT || 3000
 
+app.set('views', path.join(__dirname,'views'))//para garantir que ele vai encontrar nossos views. __dirname, caminho para views
+
 //não queremos deixar o html junto do js, queremos separar para ficar mais organizado
 //então queremos utilizar o ejs como uma linguagem de template dentro do express, não quero renderizar telas dentro do js
 //queremos terceirizar isso para um outro modulo
