@@ -1,0 +1,22 @@
+<%- include('header')%>
+<div class="container">
+        <h2>Categorias</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% categorias.forEach(categoria=>{ %>
+                    <tr>
+                        <th scope="row"><%- categoria.id%></th>
+                        <td><%- categoria.categoria%></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+<%- include('footer')%>
