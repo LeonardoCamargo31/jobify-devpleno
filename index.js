@@ -9,6 +9,7 @@ const dbConnection = sqlite.open(path.resolve(__dirname, 'banco.sqlite'), { Prom
 
 const port = process.env.PORT || 3000
 
+
 app.set('views', path.join(__dirname, 'views'))//para garantir que ele vai encontrar nossos views. __dirname, caminho para views
 
 //não queremos deixar o html junto do js, queremos separar para ficar mais organizado
@@ -82,7 +83,7 @@ app.post('/admin/categorias/nova', async (req, res) => {
     const db = await dbConnection
     const { categoria } = req.body
     await db.run(`insert into categorias(categoria) values('${categoria}')`)
-    res.redirect('/admin/categorias')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
 })
 
 
@@ -99,14 +100,14 @@ app.post('/admin/categorias/editar/:id', async (req, res) => {
     const id=req.params.id
     const { categoria } = req.body
     await db.run(`update categorias set categoria = '${categoria}' where id = ${id}`)
-    res.redirect('/admin/categorias')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
 })
 
 app.get('/admin/categorias/delete/:id', async(req,res)=>{
     const db = await dbConnection
     const id=req.params.id
     await db.run('delete from categorias where id =' + id)
-    res.redirect('/admin/categorias')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
 })
 
 
@@ -125,7 +126,7 @@ app.get('/admin/vagas/delete/:id', async (req, res) => {
     const id = req.params.id
     const db = await dbConnection
     await db.run('delete from vagas where id =' + id)
-    res.redirect('/admin/vagas')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
 })
 
 app.get('/admin/vagas/nova', async (req, res) => {
@@ -140,7 +141,7 @@ app.post('/admin/vagas/nova', async (req, res) => {
     const { titulo, descricao, categoria } = req.body
     const db = await dbConnection
     await db.run(`insert into vagas(categoria, titulo, descricao) values(${categoria},'${titulo}','${descricao}')`)
-    res.redirect('/admin/vagas')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
 })
 
 app.get('/admin/vagas/editar/:id', async (req, res) => {
@@ -158,8 +159,10 @@ app.post('/admin/vagas/editar/:id', async (req, res) => {
     const db = await dbConnection
     const id = req.params.id
     await db.run(`update vagas set categoria = ${categoria}, titulo = '${titulo}', descricao = '${descricao}' where id = ${id}`)
-    res.redirect('/admin/vagas')
+    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
 })
+
+
 
 
 
