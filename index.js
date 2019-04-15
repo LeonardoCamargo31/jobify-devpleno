@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 const app = express()
 
 const path = require('path')
-
 const sqlite = require('sqlite')
 const dbConnection = sqlite.open(path.resolve(__dirname, 'banco.sqlite'), { Promise })
 
@@ -23,7 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')))//ex http://localhost:300
 
 //toda requisição que passar pelo meu express, vai passar pelo bodyParser
 //ele entende os dados vindo do corpo da requisição, 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
 app.get('/', async (request, response) => {
     const db = await dbConnection
@@ -83,7 +84,7 @@ app.post('/admin/categorias/nova', async (req, res) => {
     const db = await dbConnection
     const { categoria } = req.body
     await db.run(`insert into categorias(categoria) values('${categoria}')`)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
+    res.redirect('/admin/categorias')
 })
 
 
@@ -100,14 +101,14 @@ app.post('/admin/categorias/editar/:id', async (req, res) => {
     const id=req.params.id
     const { categoria } = req.body
     await db.run(`update categorias set categoria = '${categoria}' where id = ${id}`)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
+    res.redirect('/admin/categorias')
 })
 
 app.get('/admin/categorias/delete/:id', async(req,res)=>{
     const db = await dbConnection
     const id=req.params.id
     await db.run('delete from categorias where id =' + id)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/categorias')
+    res.redirect('/admin/categorias')
 })
 
 
@@ -126,7 +127,7 @@ app.get('/admin/vagas/delete/:id', async (req, res) => {
     const id = req.params.id
     const db = await dbConnection
     await db.run('delete from vagas where id =' + id)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
+    res.redirect('/admin/vagas')
 })
 
 app.get('/admin/vagas/nova', async (req, res) => {
@@ -141,7 +142,7 @@ app.post('/admin/vagas/nova', async (req, res) => {
     const { titulo, descricao, categoria } = req.body
     const db = await dbConnection
     await db.run(`insert into vagas(categoria, titulo, descricao) values(${categoria},'${titulo}','${descricao}')`)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
+    res.redirect('/admin/vagas')
 })
 
 app.get('/admin/vagas/editar/:id', async (req, res) => {
@@ -159,7 +160,7 @@ app.post('/admin/vagas/editar/:id', async (req, res) => {
     const db = await dbConnection
     const id = req.params.id
     await db.run(`update vagas set categoria = ${categoria}, titulo = '${titulo}', descricao = '${descricao}' where id = ${id}`)
-    res.redirect(req.protocol+"://"+req.headers.host+'/admin/vagas')
+    res.redirect('/admin/vagas')
 })
 
 
