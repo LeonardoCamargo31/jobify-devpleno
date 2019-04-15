@@ -1,24 +1,26 @@
-<%- include('header')%>
+<%- include('../header')%>
 <div class="container">
-    <h2>Nova vaga</h2>
+    <h2>Editar vaga</h2>
     <form method="POST">
         <div class="form-group">
             <label for="exampleInputEmail1">Título</label>
-            <input type="text" class="form-control" name="titulo" placeholder="Enter email">
+            <input type="text" class="form-control" name="titulo" placeholder="Enter email" value="<%= vaga.titulo %>">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Descrição</label>
-            <textarea class="form-control" name="descricao" rows="3"></textarea>
+            <textarea class="form-control" name="descricao" rows="3"><%= vaga.descricao %></textarea>
         </div>
         <div class="form-group">
             <label for="exampleFormControlSelect1">Categoria</label>
             <select class="form-control" name="categoria">
                 <% categorias.forEach(categoria=>{ %>
-                    <option value="<%- categoria.id %>"><%- categoria.categoria %></option>
+                <option value="<%- categoria.id %>" <%- categoria.id==vaga.categoria ? 'selected' : '' %>>
+                    <%- categoria.categoria %>
+                </option>
                 <% }) %>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 </div>
-<%- include('footer')%>
+<%- include('../footer')%>

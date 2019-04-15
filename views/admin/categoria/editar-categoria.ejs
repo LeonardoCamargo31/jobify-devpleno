@@ -1,0 +1,12 @@
+<%- include('../header')%>
+<div class="container">
+    <h2>Editar vaga</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Título</label>
+            <input type="text" class="form-control" name="categoria" placeholder="Título" value="<%= categoria.categoria %>">
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+</div>
+<%- include('../footer')%>

@@ -9,7 +9,7 @@ const dbConnection = sqlite.open(path.resolve(__dirname, 'banco.sqlite'), { Prom
 
 const port = process.env.PORT || 3000
 
-app.set('views', path.join(__dirname,'views'))//para garantir que ele vai encontrar nossos views. __dirname, caminho para views
+app.set('views', path.join(__dirname, 'views'))//para garantir que ele vai encontrar nossos views. __dirname, caminho para views
 
 //não queremos deixar o html junto do js, queremos separar para ficar mais organizado
 //então queremos utilizar o ejs como uma linguagem de template dentro do express, não quero renderizar telas dentro do js
@@ -18,7 +18,7 @@ app.set('view engine', 'ejs')//então como view engine nossa app vai usar o ejs
 
 //se não achar nenhuma rota, vai usar a pasta public
 //para garantir que ele vai encontrar nossa public adiciona path.join
-app.use(express.static(path.join(__dirname,'public')))//ex http://localhost:3000/images/logo-roxo.png
+app.use(express.static(path.join(__dirname, 'public')))//ex http://localhost:3000/images/logo-roxo.png
 
 //toda requisição que passar pelo meu express, vai passar pelo bodyParser
 //ele entende os dados vindo do corpo da requisição, 
@@ -51,18 +51,72 @@ app.get('/vaga/:id', async (request, response) => {
     })
 })
 
+
+/**
+ * Pagina inicial - admin
+ */
+
 app.get('/admin', (req, res) => {
     res.render('admin/home')
 })
 
+
+
+
+/**
+ * Categoria
+ */
 app.get('/admin/categorias', async (req, res) => {
-    res.render('admin/categorias')
+    const db = await dbConnection
+    const categorias = await db.all('select * from categorias')
+    res.render('admin/categoria/categorias', {
+        categorias
+    })
 })
 
+app.get('/admin/categorias/nova', (req, res) => {
+    res.render('admin/categoria/nova-categoria')
+})
+
+app.post('/admin/categorias/nova', async (req, res) => {
+    const db = await dbConnection
+    const { categoria } = req.body
+    await db.run(`insert into categorias(categoria) values('${categoria}')`)
+    res.redirect('/admin/categorias')
+})
+
+
+app.get('/admin/categorias/editar/:id', async(req,res)=>{
+    const db = await dbConnection
+    const id=req.params.id
+    const categoria=await db.get('select * from categorias where id='+id)
+    res.render('admin/categoria/editar-categoria',{
+        categoria
+    })
+})
+app.post('/admin/categorias/editar/:id', async (req, res) => {
+    const db = await dbConnection
+    const id=req.params.id
+    const { categoria } = req.body
+    await db.run(`update categorias set categoria = '${categoria}' where id = ${id}`)
+    res.redirect('/admin/categorias')
+})
+
+app.get('/admin/categorias/delete/:id', async(req,res)=>{
+    const db = await dbConnection
+    const id=req.params.id
+    await db.run('delete from categorias where id =' + id)
+    res.redirect('/admin/categorias')
+})
+
+
+/**
+ * Vagas
+ */
 app.get('/admin/vagas', async (req, res) => {
     const db = await dbConnection
     const vagas = await db.all('select * from vagas')
-    res.render('admin/vagas', {
+    res.render('admin/vaga/vagas', {
         vagas
     })
 })
@@ -77,7 +131,7 @@ app.get('/admin/vagas/delete/:id', async (req, res) => {
 app.get('/admin/vagas/nova', async (req, res) => {
     const db = await dbConnection
     const categorias = await db.all('select * from categorias')
-    res.render('admin/nova-vaga', {
+    res.render('admin/vaga/nova-vaga', {
         categorias
     })
 })
@@ -94,12 +148,11 @@ app.get('/admin/vagas/editar/:id', async (req, res) => {
     const id = req.params.id
     const vaga = await db.get(`select * from vagas where id=${id}`)
     const categorias = await db.all('select * from categorias')
-    res.render('admin/editar-vaga', {
+    res.render('admin/vaga/editar-vaga', {
         vaga,
         categorias
     })
 })
-
 app.post('/admin/vagas/editar/:id', async (req, res) => {
     const { titulo, descricao, categoria } = req.body
     const db = await dbConnection
@@ -107,6 +160,8 @@ app.post('/admin/vagas/editar/:id', async (req, res) => {
     await db.run(`update vagas set categoria = ${categoria}, titulo = '${titulo}', descricao = '${descricao}' where id = ${id}`)
     res.redirect('/admin/vagas')
 })
+
+
 
 
 const init = async () => {

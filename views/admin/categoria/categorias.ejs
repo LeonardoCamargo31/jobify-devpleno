@@ -1,0 +1,26 @@
+<%- include('../header')%>
+<div class="container">
+    <h2>Categorias</h2>
+    <a href="/admin/categorias/nova" class="btn btn-primary">Adicionar nova categoria</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Excluir</th>
+                <th scope="col">Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% categorias.forEach(categoria=>{ %>
+                <tr>
+                    <th scope="row"><%- categoria.id%></th>
+                    <td><%- categoria.categoria%></td>
+                    <td><a href="/admin/categorias/delete/<%- categoria.id %>">Excluir</td>
+                    <td><a href="/admin/categorias/editar/<%- categoria.id %>">Editar</td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include('../footer')%>
