@@ -1,22 +1,32 @@
 <%- include('header')%>
-    <section>
-        <div class="container">
-            <div class="row">
-                <% categorias.forEach(categoria=>{ %>
-                    <div class="col-md-4">
-                        <h2><%- categoria.categoria %></h2>
-                        <% categoria.vagas.forEach(vaga=>{ %>
+<section>
+    <div class="container">
+        <div class="row">
+            <% categorias.forEach(categoria=>{ %>
+            <div class="col-md-12">
+                <h2>
+                    <%- categoria.categoria %>
+                </h2>
+                <div class="row">
+                    <% categoria.vagas.forEach(vaga=>{ %>
+                        <div class="col-md-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title"><%- vaga.titulo%></h5>
-                                    <p class="card-text"><%- vaga.descricao %></p>
+                                    <h5 class="card-title">
+                                        <%- vaga.titulo%>
+                                    </h5>
+                                    <p class="card-text">
+                                        <%- vaga.descricao %>
+                                    </p>
                                     <a href="/vaga/<%- vaga.id%>" class="btn btn-primary">Ver detalhes</a>
                                 </div>
                             </div>
-                        <% })%>
-                    </div>
-                <% })%>
+                        </div>
+                    <% })%>
+                </div>
             </div>
+            <% })%>
         </div>
-    </section>
+    </div>
+</section>
 <%- include('footer')%>
