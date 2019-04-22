@@ -93,7 +93,7 @@ app.post('/admin/categorias/nova', async (req, res) => {
     const db = await dbConnection
     const { categoria } = req.body
     try{
-    await db.prepare(`insert into categorias(categoria) values('${categoria}')`)
+        await db.run(`insert into categorias(categoria) values('${categoria}')`)
         res.redirect('/admin/categorias?status=success&method=insert')
     }
     catch(err){
