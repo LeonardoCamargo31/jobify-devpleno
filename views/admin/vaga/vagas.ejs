@@ -1,4 +1,39 @@
 <%- include('../header')%>
+<link rel="stylesheet" href="/admin/vendor/toasty/toasty.min.css">
+<script src="/admin/vendor/toasty/toasty.min.js"></script>
+<script>
+    var status = "<%= status %>";
+    var method = "<%= method %>";
+    $(document).ready(function () {
+        var options = {
+            enableSounds: true,
+            sounds: {
+                info: "/admin/vendor/toasty/sounds/info/1.mp3",
+                success: "/admin/vendor/toasty/sounds/success/1.mp3",
+                warning: "/admin/vendor/toasty/sounds/warning/1.mp3",
+                error: "/admin/vendor/toasty/sounds/error/1.mp3",
+            }
+        }
+        if (status == 'success') {
+            var toast = new Toasty(options);
+            toast.configure(options);
+            switch (method) {
+                case 'insert':
+                    toast.success('Inserido com sucesso!');
+                    break;
+                case 'update':
+                    toast.success('Alterado com sucesso!');
+                    break;
+                case 'delete':
+                    toast.success('Deletado com sucesso!');
+                    break;
+                default:
+                    break;
+            }
+        }
+    })
+</script>
+
 <!-- Page Header-->
 <header class="page-header">
     <div class="container-fluid">
@@ -16,7 +51,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                    <a href="/admin/vagas/nova" class="btn btn-primary">Adicionar nova vaga</a>
+                <a href="/admin/vagas/nova" class="btn btn-new btn-primary">Adicionar nova vaga</a>
                 <div class="card">
                     <div class="card-close">
                         <div class="dropdown">

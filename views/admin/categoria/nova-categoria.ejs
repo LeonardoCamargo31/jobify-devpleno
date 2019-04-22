@@ -9,6 +9,7 @@
 <div class="breadcrumb-holder container-fluid">
     <ul class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+        <li class="breadcrumb-item"><a href="/admin/categorias">Categorias</a></li>
         <li class="breadcrumb-item active">Nova categoria</li>
     </ul>
 </div>
@@ -24,12 +25,18 @@
                     </div>
                     <div class="card-body">
                         <p>Lorem ipsum dolor sit amet consectetur.</p>
-                        <form method="POST">
+                        <form method="POST" class="needs-validation" novalidate>
                             <div class="form-group">
                                 <label class="form-control-label">Título</label>
-                                <input type="text" class="form-control" name="categoria" placeholder="Título">
+                                <input type="text" class="form-control" name="categoria" placeholder="Título" required>
+                                <div class="invalid-feedback">
+                                    Insira o título da categoria
+                                </div>
+                                <div class="valid-feedback">
+                                    Parece bom!
+                                </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <input type="submit" value="Cadastrar" class="btn btn-primary">
                             </div>
